@@ -1,5 +1,7 @@
 package edu.rosehulman.pluggablegui.platform;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -12,6 +14,8 @@ public class Renderer extends JPanel {
 	
 	public Renderer(){
 		// Build shit and shit
+		setBackground(Color.GRAY);
+		setPreferredSize(new Dimension(900, 400));
 	}
 
 	public void registerPlugin(IBedazzledPlugin activator) {
