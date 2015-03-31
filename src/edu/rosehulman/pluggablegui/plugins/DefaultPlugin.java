@@ -2,8 +2,8 @@ package edu.rosehulman.pluggablegui.plugins;
 
 import javax.swing.JPanel;
 
+import edu.rosehulman.pluggablegui.commons.IBedazzledPlatform;
 import edu.rosehulman.pluggablegui.commons.IBedazzledPlugin;
-import edu.rosehulman.pluggablegui.commons.ILogger;
 
 public class DefaultPlugin implements IBedazzledPlugin {
 
@@ -13,7 +13,7 @@ public class DefaultPlugin implements IBedazzledPlugin {
 	}
 
 	@Override
-	public void start(ILogger log) {
+	public void start(IBedazzledPlatform environment) {
 		// TODO Auto-generated method stub
 		// HAHA WRITE THIS SHIT JARVIS
 	}
