@@ -31,4 +31,16 @@ public class DefaultPlugin implements IBedazzledPlugin {
 		return null;
 	}
 
+	@Override
+	public String getUniqueName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getVersion() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
