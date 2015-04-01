@@ -76,7 +76,7 @@ public class BedazzledProgram extends JPanel {
 		footer.setPreferredSize(footer.getPreferredSize());
 
 		add(footer);
-		
+
 		appendTestData(renderer);
 	}
 
@@ -88,9 +88,9 @@ public class BedazzledProgram extends JPanel {
 		Random rando = new Random();
 		for (int i = 0; i < 20; i++) {
 			StringBuilder pluginName = new StringBuilder();
-			
+
 			int wordCount = rando.nextInt(8) + 1;
-			for(int w = 0; w < wordCount; w++){
+			for (int w = 0; w < wordCount; w++) {
 				int word = rando.nextInt(words.length);
 				pluginName.append(words[word] + " ");
 			}
@@ -113,8 +113,13 @@ public class BedazzledProgram extends JPanel {
 
 				@Override
 				public JPanel render() {
-					// TODO Auto-generated method stub
-					return null;
+					JPanel testPane = new JPanel();
+					testPane.setBackground(Color.BLACK);
+
+					JLabel fancyLabel = new JLabel(shortName);
+					fancyLabel.setForeground(Color.CYAN);
+					testPane.add(fancyLabel);
+					return testPane;
 				}
 
 				@Override
