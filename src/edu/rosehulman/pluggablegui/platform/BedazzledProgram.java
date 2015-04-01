@@ -83,7 +83,11 @@ public class BedazzledProgram extends JPanel {
 	private void appendTestData(Renderer target) {
 		String[] words = { "Harry", "Potter", "Fancy", "Pants", "Cat", "Pony",
 				"Lemons", "Apple", "iPhone", "Caramel Frap", "Sea Lion",
-				"Pancakes" };
+				"Pancakes", "Puppy", "Twilight", "key", "mound", "waiter",
+				"prince", "shout", "blister", "novel", "force", "milkshake",
+				"boys", "yard", "brings", "her", "Cole", "loser", "is", "does",
+				"won't", "faces", "barrista", "steamed milk", "half caf",
+				"white", "girls" };
 
 		Random rando = new Random();
 		for (int i = 0; i < 20; i++) {

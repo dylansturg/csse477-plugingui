@@ -30,7 +30,7 @@ public class Renderer extends JPanel {
 
 	private IPluginActivator activePlugin;
 
-	private Map<String, IBedazzledPlugin> registeredPlugins = new HashMap<String, IBedazzledPlugin>();
+	private Map<String, IPluginActivator> registeredPlugins = new HashMap<String, IPluginActivator>();
 	private Map<String, JPanel> pluginPreviews = new HashMap<String, JPanel>();
 
 	public Renderer() {
@@ -59,19 +59,13 @@ public class Renderer extends JPanel {
 	}
 
 	public void registerPlugin(IBedazzledPlugin activator) {
-		// TODO ^
-		// put the plugin into the available plugins side panel
 		if (!registeredPlugins.containsKey(activator.getUniqueName())) {
-			registeredPlugins.put(activator.getUniqueName(), activator);
-
 			pluginTableContent.add(createPluginPreview(activator));
 		}
 
 	}
 
 	private synchronized void activatePlugin(IPluginActivator activator) {
-		System.out.println("Activating a plugin... "
-				+ activator.getManagedPlugin().getShortName());
 
 		if (this.activePlugin != null) {
 			this.activePlugin.deactivate();
@@ -91,8 +85,6 @@ public class Renderer extends JPanel {
 	}
 
 	private void deactivatePlugin(IPluginActivator activator) {
-		System.out.println("Deactivating a plugin... "
-				+ activator.getManagedPlugin().getShortName());
 
 		if (activator != this.activePlugin) {
 			throw new IllegalArgumentException(
@@ -100,10 +92,10 @@ public class Renderer extends JPanel {
 		}
 
 		this.activePlugin = null;
-
 		this.pluginUIPanel.removeAll();
 
-		this.repaint();
+		this.redraw();
+		this.validate();
 	}
 
 	private void redraw() {
@@ -121,6 +113,10 @@ public class Renderer extends JPanel {
 	}
 
 	private JPanel createPluginPreview(final IBedazzledPlugin plugin) {
+		if (registeredPlugins.containsKey(plugin.getUniqueName())) {
+			return pluginPreviews.get(plugin.getUniqueName());
+		}
+
 		JPanel preview = new JPanel();
 		preview.setLayout(new BoxLayout(preview, BoxLayout.Y_AXIS));
 		preview.setOpaque(false);
@@ -140,8 +136,18 @@ public class Renderer extends JPanel {
 			}
 		});
 
+		final JButton uninstall = new JButton("Uninstall");
+		uninstall.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				unregisterPlugin(plugin);
+			}
+		});
+
 		preview.add(activator);
+		preview.add(uninstall);
 		pluginPreviews.put(plugin.getUniqueName(), preview);
+		registeredPlugins.put(plugin.getUniqueName(), activator);
 
 		return preview;
 	}
@@ -152,8 +158,25 @@ public class Renderer extends JPanel {
 		}
 	}
 
-	public void unregisterPlugin(IBedazzledPlugin activator) {
-		// TODO ^
+	public synchronized void unregisterPlugin(IBedazzledPlugin activator) {
+		if (registeredPlugins.containsKey(activator.getUniqueName())) {
+			IPluginActivator pluginActivator = registeredPlugins.get(activator
+					.getUniqueName());
+			if (pluginActivator.isActive()) {
+				pluginActivator.deactivate();
+			}
+
+			registeredPlugins.remove(activator.getUniqueName());
+
+			JPanel preview = pluginPreviews.get(activator.getUniqueName());
+			if (preview != null) {
+				pluginTableContent.remove(preview);
+				pluginPreviews.remove(activator.getUniqueName());
+			}
+		}
+
+		redraw();
+		validate();
 	}
 
 	public void unregisterPlugins(List<IBedazzledPlugin> activators) {
@@ -163,13 +186,15 @@ public class Renderer extends JPanel {
 	}
 
 	public void terminatePlugin(String pluginId) {
-		// remove from side panel and clear it's JPanel
+
 	}
 
 	private interface IPluginActivator {
 		void activate();
 
 		void deactivate();
+
+		boolean isActive();
 
 		IBedazzledPlugin getManagedPlugin();
 	}
@@ -205,6 +230,11 @@ public class Renderer extends JPanel {
 			managedPlugin.stop();
 
 			deactivatePlugin(this);
+		}
+
+		@Override
+		public boolean isActive() {
+			return getActionCommand().equals(DEACTIVATE_COMMAND);
 		}
 	}
 
