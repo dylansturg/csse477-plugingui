@@ -1,12 +1,16 @@
 package edu.rosehulman.pluggablegui.platform;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.rosehulman.pluggablegui.commons.IBedazzledPlatform;
+import edu.rosehulman.pluggablegui.commons.IBedazzledPlugin;
 import edu.rosehulman.pluggablegui.commons.ILogger;
 
 public class BedazzledProgram extends JPanel {
@@ -33,34 +37,105 @@ public class BedazzledProgram extends JPanel {
 
 		frame.getContentPane().add(new BedazzledProgram());
 		frame.setVisible(true);
+		frame.pack();
 	}
 
 	public BedazzledProgram() {
 		// Create a Renderer (for plugins)
 		// Display it
 		// Get the logger
-		
+
 		setBackground(Color.CYAN);
-		
+
 		Renderer renderer = new Renderer();
 		ReferenceBedazzler.sharedInstance.registerRenderer(renderer);
-		
+
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(renderer);
-		
+
 		ILogger logger = ReferenceBedazzler.sharedInstance.getSharedLogger();
 		if (logger != null) {
 			JPanel loggerUI = logger.render();
-			if (loggerUI != null){
+			if (loggerUI != null) {
 				add(loggerUI);
 			}
 		} else {
 			// test code
 			JPanel testPanel = new JPanel();
+			testPanel.setPreferredSize(new Dimension(900, 150));
 			testPanel.add(new JLabel("Logger goes here"));
 			testPanel.setBackground(Color.RED);
-			
+
 			add(testPanel);
+		}
+
+		JPanel footer = new JPanel();
+		footer.setBackground(Color.WHITE);
+		footer.add(new JLabel("Bedazzled Plugins Inc."));
+		footer.add(new JLabel("© 2015"));
+		footer.setPreferredSize(footer.getPreferredSize());
+
+		add(footer);
+		
+		appendTestData(renderer);
+	}
+
+	private void appendTestData(Renderer target) {
+		String[] words = { "Harry", "Potter", "Fancy", "Pants", "Cat", "Pony",
+				"Lemons", "Apple", "iPhone", "Caramel Frap", "Sea Lion",
+				"Pancakes" };
+
+		Random rando = new Random();
+		for (int i = 0; i < 20; i++) {
+			StringBuilder pluginName = new StringBuilder();
+			
+			int wordCount = rando.nextInt(8) + 1;
+			for(int w = 0; w < wordCount; w++){
+				int word = rando.nextInt(words.length);
+				pluginName.append(words[word] + " ");
+			}
+
+			final String shortName = pluginName.toString();
+			final String unique = "" + i;
+			IBedazzledPlugin generatedPlugin = new IBedazzledPlugin() {
+
+				@Override
+				public void stop() {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void start(IBedazzledPlatform environment) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public JPanel render() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public int getVersion() {
+					// TODO Auto-generated method stub
+					return 0;
+				}
+
+				@Override
+				public String getUniqueName() {
+					return unique;
+				}
+
+				@Override
+				public String getShortName() {
+					// TODO Auto-generated method stub
+					return shortName;
+				}
+			};
+
+			target.registerPlugin(generatedPlugin);
 		}
 	}
 }
