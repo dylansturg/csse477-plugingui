@@ -2,6 +2,7 @@ package edu.rosehulman.pluggablegui.platform;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,7 +19,9 @@ import edu.rosehulman.pluggablegui.commons.ILogger;
 
 public class Logger implements ILogger {
 
-	public static JTextPane loggerText = new JTextPane();
+//	public static JTextPane loggerText = new JTextPane();
+	public static JTextArea loggerText = new JTextArea(12, 70);
+
 	public static JPanel loggerPanel = new JPanel();
 	private static List<Color> colors = new ArrayList<Color>();
 	private static Random rand = new Random();
@@ -56,28 +59,38 @@ public class Logger implements ILogger {
 	
 	@Override
 	public void logInfo(String message) {
-		loggerText.setText(loggerText.getText().replaceAll("</html>", "").replaceAll("</body>", "") + "<p>" + bedazzle(message) + "</p></body></html>");
+//		loggerText.setText(loggerText.getText().replaceAll("</html>", "").replaceAll("</body>", "") + "<p>" + bedazzle(message) + "</p></body></html>");
 
-		loggerText.revalidate();
+		loggerText.append(message + "\n");
 	}
 
 	@Override
 	public void logError(String error) {
-		loggerText.setText(loggerText.getText().replaceAll("</html>", "") + redazzle(error) + "</html>");
+//		loggerText.setText(loggerText.getText().replaceAll("</html>", "").replaceAll("</body>", "") + "<p>" + redazzle(error) + "</p></body></html>");
+		
+		loggerText.append("ERROR: " + error + "\n");
 	}
 
-	@Override
-	public JPanel render() {
-		JScrollPane loggerScrollPane = new JScrollPane(loggerText);
-		loggerPanel.setLayout(new BorderLayout());
-		loggerPanel.add(loggerScrollPane, BorderLayout.CENTER);
-		loggerText.setEditorKit(new HTMLEditorKit());
-		loggerScrollPane.setBackground(Color.black);
-		
+//	public JPanel render() {
+//		JScrollPane loggerScrollPane = new JScrollPane(loggerText);
+//		loggerPanel.setLayout(new BorderLayout());
+//		loggerPanel.add(loggerScrollPane, BorderLayout.CENTER);
+//		loggerText.setEditorKit(new HTMLEditorKit());
+//		loggerScrollPane.setBackground(Color.black);
+//		
 //		loggerText.setSize(600, 200);
+//		loggerPanel.setSize(600, 200);
+//		loggerPanel.setMaximumSize(new Dimension(10000, 200));
+//		
+//		loggerText.setText("<html><head></head><body>Logger started</body></html>");
+//		
+//		return loggerPanel;
+//	}
+	
+	public JPanel render(){
+		JScrollPane loggerScrollPane = new JScrollPane(loggerText);
+		loggerPanel.add(loggerScrollPane, BorderLayout.CENTER);
 		loggerPanel.setSize(600, 200);
-		
-		loggerText.setText("<html><head></head><body>Logger started</body></html>");
 		
 		return loggerPanel;
 	}

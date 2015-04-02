@@ -1,6 +1,13 @@
 package edu.rosehulman.pluggablegui.plugins;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.text.html.HTMLEditorKit;
 
 import edu.rosehulman.pluggablegui.commons.IBedazzledPlatform;
 import edu.rosehulman.pluggablegui.commons.IBedazzledPlugin;
@@ -14,32 +21,34 @@ public class DefaultPlugin implements IBedazzledPlugin {
 
 	@Override
 	public void start(IBedazzledPlatform environment) {
-		// TODO Auto-generated method stub
-		// HAHA WRITE THIS SHIT JARVIS
+		//Does nothing
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-		// HAHA WRITE THIS SHIT JARVIS
+		//Does nothing
 	}
 
 	@Override
 	public JPanel render() {
-		// TODO Auto-generated method stub
-		// HAHA WRITE THIS SHIT JARVIS
-		return null;
+		JPanel panel = new JPanel();
+		JTextArea text = new JTextArea();
+		
+		String message = "This is the default plugin.";
+		text.append(message);
+		
+		panel.add(text);
+		
+		return panel;
 	}
 
 	@Override
 	public String getUniqueName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 	@Override
 	public int getVersion() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
