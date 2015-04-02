@@ -1,5 +1,8 @@
 package edu.rosehulman.pluggablegui.platform;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import javax.swing.SwingUtilities;
 
 import edu.rosehulman.pluggablegui.commons.IBedazzledPlatform;
@@ -13,6 +16,8 @@ public class ReferenceBedazzler implements IBedazzledPlatform {
 	private static Logger sharedLogger = new Logger();
 
 	private Renderer renderComponent;
+
+	private Queue<IBedazzledPlugin> registeredPluginQueue = new LinkedList<IBedazzledPlugin>();
 
 	private ReferenceBedazzler() {
 	}
@@ -38,7 +43,7 @@ public class ReferenceBedazzler implements IBedazzledPlatform {
 			});
 
 		} else {
-			logError("Attempt to register a plugin without a Renderer");
+			registeredPluginQueue.add(newPlugin);
 		}
 	}
 
@@ -59,6 +64,18 @@ public class ReferenceBedazzler implements IBedazzledPlatform {
 
 	protected void registerRenderer(Renderer component) {
 		this.renderComponent = component;
+
+		if (registeredPluginQueue.size() > 0) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					for (IBedazzledPlugin iBedazzledPlugin : registeredPluginQueue) {
+						ReferenceBedazzler.this.renderComponent
+								.registerPlugin(iBedazzledPlugin);
+					}
+				}
+			});
+		}
 	}
 
 	private void logError(String message) {
