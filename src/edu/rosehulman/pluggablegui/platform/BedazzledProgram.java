@@ -21,7 +21,7 @@ public class BedazzledProgram extends JPanel {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		(new Thread(new PluginLoader())).start();
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				bedazzle();

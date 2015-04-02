@@ -17,18 +17,11 @@ import java.nio.file.WatchService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PluginLoader {
+public class PluginLoader implements Runnable {
 	
 	private static List<String> pluginList = new ArrayList<String>();
 	private static String extensionToUse = ".jar";
 	
-	public static void main(String[] args) throws IOException,
-			InterruptedException {
-		// Folder we are going to watch
-		Path folder = Paths.get("plugins");
-		findExistingFiles(folder);
-		watchDirectoryPath(folder);
-	}
 	
 	public static List<String> getPluginList(){
 		return pluginList;
@@ -115,5 +108,14 @@ public class PluginLoader {
 			ie.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void run() {
+		// Folder we are going to watch
+		Path folder = Paths.get("plugins");
+		findExistingFiles(folder);
+		watchDirectoryPath(folder);
+		
 	}
 }
