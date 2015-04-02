@@ -23,7 +23,14 @@ public class PluginManager {
 
 	public void registerPlugin(Path newPath) {
 		try {
-			JarFile jarFile = new JarFile(newPath.toString());
+			String filesystem = newPath.toAbsolutePath().getParent().toString();
+			String filename = newPath.getFileName().toString();
+			//idk if right, but we need it right now
+			String path = filesystem + "/plugins/" + filename;
+			
+			@SuppressWarnings("resource")
+			JarFile jarFile = new JarFile(path);
+			@SuppressWarnings("unused")
 			Enumeration<JarEntry> e = jarFile.entries();
 
 			URL[] urls = { new URL("jar:file:" + newPath + "!/") };
