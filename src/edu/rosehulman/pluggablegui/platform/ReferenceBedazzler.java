@@ -19,7 +19,6 @@ public class ReferenceBedazzler implements IBedazzledPlatform {
 
 	@Override
 	public ILogger getLoggerForPlugin(IBedazzledPlugin plugin) {
-		// TODO Auto-generated method stub
 		return sharedLogger;
 	}
 
@@ -33,7 +32,8 @@ public class ReferenceBedazzler implements IBedazzledPlatform {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					ReferenceBedazzler.this.renderComponent.registerPlugin(newPlugin);
+					ReferenceBedazzler.this.renderComponent
+							.registerPlugin(newPlugin);
 				}
 			});
 
@@ -48,7 +48,8 @@ public class ReferenceBedazzler implements IBedazzledPlatform {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					ReferenceBedazzler.this.renderComponent.unregisterPlugin(removedPlugin);	
+					ReferenceBedazzler.this.renderComponent
+							.unregisterPlugin(removedPlugin);
 				}
 			});
 		} else {
