@@ -34,6 +34,7 @@ public class ReferenceBedazzler implements IBedazzledPlatform {
 	protected void registerPlugin(final IBedazzledPlugin newPlugin) {
 		// Pass on to the current renderer
 		if (this.renderComponent != null) {
+
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -50,6 +51,7 @@ public class ReferenceBedazzler implements IBedazzledPlatform {
 	protected void unregisterPlugin(final IBedazzledPlugin removedPlugin) {
 		// Pass on to the current renderer
 		if (this.renderComponent != null) {
+
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {

@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,9 +67,17 @@ public class Renderer extends JPanel {
 			pluginTableContent.add(createPluginPreview(activator));
 		}
 
+		Renderer.this.pluginTableContent.repaint();
+		Renderer.this.pluginTableContent.invalidate();
+		Renderer.this.pluginTableContent.revalidate();
+
+		Renderer.this.repaint();
+		Renderer.this.invalidate();
+		Renderer.this.revalidate();
+
 	}
 
-	private synchronized void activatePlugin(IPluginActivator activator) {
+	private void activatePlugin(IPluginActivator activator) {
 
 		if (this.activePlugin != null) {
 			this.activePlugin.deactivate();
@@ -82,8 +91,13 @@ public class Renderer extends JPanel {
 			this.pluginUIPanel.add(pluginUI);
 		}
 
-		this.redraw();
-		this.validate();
+		Renderer.this.pluginTableContent.repaint();
+		Renderer.this.pluginTableContent.invalidate();
+		Renderer.this.pluginTableContent.revalidate();
+
+		Renderer.this.repaint();
+		Renderer.this.invalidate();
+		Renderer.this.revalidate();
 
 	}
 
@@ -97,22 +111,13 @@ public class Renderer extends JPanel {
 		this.activePlugin = null;
 		this.pluginUIPanel.removeAll();
 
-		this.redraw();
-		this.validate();
-	}
+		Renderer.this.pluginTableContent.repaint();
+		Renderer.this.pluginTableContent.invalidate();
+		Renderer.this.pluginTableContent.revalidate();
 
-	private void redraw() {
-		if (!SwingUtilities.isEventDispatchThread()) {
-
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					Renderer.this.update(getGraphics());
-				}
-			});
-
-		} else {
-			this.update(getGraphics());
-		}
+		Renderer.this.repaint();
+		Renderer.this.invalidate();
+		Renderer.this.revalidate();
 	}
 
 	private JPanel createPluginPreview(final IBedazzledPlugin plugin) {
@@ -123,14 +128,14 @@ public class Renderer extends JPanel {
 		JPanel preview = new JPanel();
 		preview.setBorder(new EmptyBorder(5, 10, 0, 0));
 		preview.setAlignmentX(Component.LEFT_ALIGNMENT);
-		
+
 		preview.setLayout(new BoxLayout(preview, BoxLayout.Y_AXIS));
 		preview.setOpaque(false);
 		JLabel pluginLabel = new JLabel(plugin.getShortName());
 		pluginLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		
+
 		preview.add(pluginLabel);
-		
+
 		final PluginButton activator = new PluginButton(plugin, "Activate");
 		activator.setActionCommand(ACTIVATE_COMMAND);
 
@@ -159,7 +164,7 @@ public class Renderer extends JPanel {
 		buttonFrame.add(activator);
 		buttonFrame.add(uninstall);
 		buttonFrame.setAlignmentX(Component.LEFT_ALIGNMENT);
-		
+
 		preview.add(buttonFrame);
 		pluginPreviews.put(plugin.getUniqueName(), preview);
 		registeredPlugins.put(plugin.getUniqueName(), activator);
@@ -190,8 +195,13 @@ public class Renderer extends JPanel {
 			}
 		}
 
-		redraw();
-		validate();
+		Renderer.this.pluginTableContent.repaint();
+		Renderer.this.pluginTableContent.invalidate();
+		Renderer.this.pluginTableContent.revalidate();
+
+		Renderer.this.repaint();
+		Renderer.this.invalidate();
+		Renderer.this.revalidate();
 	}
 
 	public void unregisterPlugins(List<IBedazzledPlugin> activators) {
@@ -201,7 +211,7 @@ public class Renderer extends JPanel {
 	}
 
 	public void terminatePlugin(String pluginId) {
-
+		// TODO Possible future feature
 	}
 
 	private interface IPluginActivator {

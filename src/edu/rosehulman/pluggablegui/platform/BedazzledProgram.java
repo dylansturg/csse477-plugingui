@@ -3,9 +3,12 @@ package edu.rosehulman.pluggablegui.platform;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,6 +23,8 @@ public class BedazzledProgram extends JPanel {
 	 */
 	private static final long serialVersionUID = -7323463350634651199L;
 
+	public static BedazzledProgram sharedInstance;
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		(new Thread(new PluginLoader())).start();
@@ -31,9 +36,9 @@ public class BedazzledProgram extends JPanel {
 	}
 
 	private static void bedazzle() {
-		JFrame frame = new JFrame("Bedazzled Plugins");
+		final JFrame frame = new JFrame("Bedazzled Plugins");
 
-		frame.setSize(900, 600);
+		frame.setSize(900, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		frame.getContentPane().add(new BedazzledProgram());
@@ -45,6 +50,7 @@ public class BedazzledProgram extends JPanel {
 		// Create a Renderer (for plugins)
 		// Display it
 		// Get the logger
+		sharedInstance = this;
 
 		setBackground(Color.CYAN);
 
@@ -77,7 +83,6 @@ public class BedazzledProgram extends JPanel {
 		footer.setPreferredSize(footer.getPreferredSize());
 
 		add(footer);
-
 		appendTestData(renderer);
 	}
 
@@ -91,7 +96,7 @@ public class BedazzledProgram extends JPanel {
 				"white", "girls" };
 
 		Random rando = new Random();
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 2; i++) {
 			StringBuilder pluginName = new StringBuilder();
 
 			int wordCount = rando.nextInt(8) + 1;
@@ -116,9 +121,10 @@ public class BedazzledProgram extends JPanel {
 					logMessage(shortName + "is starting up!");
 
 				}
-				
-				public void logMessage(String msg){
-					ILogger logger = ReferenceBedazzler.sharedInstance.getSharedLogger();
+
+				public void logMessage(String msg) {
+					ILogger logger = ReferenceBedazzler.sharedInstance
+							.getSharedLogger();
 					logger.logInfo(msg);
 				}
 
