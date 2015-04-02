@@ -7,6 +7,8 @@ import edu.rosehulman.pluggablegui.commons.ILogger;
 public class ReferenceBedazzler implements IBedazzledPlatform {
 
 	public static ReferenceBedazzler sharedInstance = new ReferenceBedazzler();
+	
+	private static Logger sharedLogger = new Logger();
 
 	private Renderer renderComponent;
 
@@ -16,11 +18,11 @@ public class ReferenceBedazzler implements IBedazzledPlatform {
 	@Override
 	public ILogger getLoggerForPlugin(IBedazzledPlugin plugin) {
 		// TODO Auto-generated method stub
-		return null;
+		return sharedLogger;
 	}
 
 	protected ILogger getSharedLogger() {
-		return null;
+		return sharedLogger;
 	}
 
 	protected void registerPlugin(IBedazzledPlugin newPlugin) {

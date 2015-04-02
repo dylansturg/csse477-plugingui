@@ -112,7 +112,13 @@ public class BedazzledProgram extends JPanel {
 				@Override
 				public void start(IBedazzledPlatform environment) {
 					// TODO Auto-generated method stub
+					logMessage(shortName + "is starting up!");
 
+				}
+				
+				public void logMessage(String msg){
+					ILogger logger = ReferenceBedazzler.sharedInstance.getSharedLogger();
+					logger.logInfo(msg);
 				}
 
 				@Override
