@@ -1,7 +1,9 @@
 package edu.rosehulman.pluggablegui.platform;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 
 import edu.rosehulman.pluggablegui.commons.IBedazzledPlugin;
 
@@ -118,10 +121,16 @@ public class Renderer extends JPanel {
 		}
 
 		JPanel preview = new JPanel();
+		preview.setBorder(new EmptyBorder(5, 10, 0, 0));
+		preview.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
 		preview.setLayout(new BoxLayout(preview, BoxLayout.Y_AXIS));
 		preview.setOpaque(false);
-		preview.add(new JLabel(plugin.getShortName()));
-
+		JLabel pluginLabel = new JLabel(plugin.getShortName());
+		pluginLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+		preview.add(pluginLabel);
+		
 		final PluginButton activator = new PluginButton(plugin, "Activate");
 		activator.setActionCommand(ACTIVATE_COMMAND);
 
@@ -144,8 +153,14 @@ public class Renderer extends JPanel {
 			}
 		});
 
-		preview.add(activator);
-		preview.add(uninstall);
+		JPanel buttonFrame = new JPanel();
+		buttonFrame.setLayout(new BoxLayout(buttonFrame, BoxLayout.X_AXIS));
+		buttonFrame.setOpaque(false);
+		buttonFrame.add(activator);
+		buttonFrame.add(uninstall);
+		buttonFrame.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+		preview.add(buttonFrame);
 		pluginPreviews.put(plugin.getUniqueName(), preview);
 		registeredPlugins.put(plugin.getUniqueName(), activator);
 
