@@ -93,6 +93,7 @@ public class PluginLoader implements Runnable {
 						if (newPath.toString().contains(extensionToUse)) {
 							System.out.println("New path created: " + newPath);
 							//Call manager or something to notify about new jar to install
+							PluginManager.sharedInstance.registerPlugin(newPath);
 						}
 					}
 				}
