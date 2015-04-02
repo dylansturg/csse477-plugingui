@@ -1,6 +1,7 @@
 package edu.rosehulman.pluggablegui.platform;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,8 +27,13 @@ public class PluginManager {
 		try {
 			String filesystem = newPath.toAbsolutePath().getParent().toString();
 			String filename = newPath.getFileName().toString();
+			String path = "";
 			//idk if right, but we need it right now
-			String path = filesystem + "/plugins/" + filename;
+			if(filesystem.endsWith("plugins")){
+				path = filesystem + File.separator + filename;
+			}else{
+				path = filesystem + File.separator + "plugins" + File.separator + filename;
+			}
 			
 			@SuppressWarnings("resource")
 			JarFile jarFile = new JarFile(path);

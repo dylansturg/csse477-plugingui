@@ -36,6 +36,7 @@ public class PluginLoader implements Runnable {
 				if(child.toString().contains(extensionToUse)){
 					System.out.println(child);
 					pluginList.add(child.toString());
+					PluginManager.sharedInstance.registerPlugin(child.toPath());
 					
 				}
 			}
