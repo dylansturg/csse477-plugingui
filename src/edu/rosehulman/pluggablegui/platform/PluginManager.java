@@ -24,11 +24,17 @@ public class PluginManager {
 
 	public void registerPlugin(Path newPath) {
 		try {
-			String realPath = "/Users/sturgedl/Documents/workspace/csse477-plugingui/plugins/" + newPath.toString();
-			JarFile jarFile = new JarFile(realPath);
+			String filesystem = newPath.toAbsolutePath().getParent().toString();
+			String filename = newPath.getFileName().toString();
+			//idk if right, but we need it right now
+			String path = filesystem + "/plugins/" + filename;
+			
+			@SuppressWarnings("resource")
+			JarFile jarFile = new JarFile(path);
+			@SuppressWarnings("unused")
 			Enumeration<JarEntry> e = jarFile.entries();
 
-			URL[] urls = { new URL("jar:file:" + realPath + "!/") };
+			URL[] urls = { new URL("jar:file:" + path + "!/") };
 			URLClassLoader cl = URLClassLoader.newInstance(urls);
 			
 			IBedazzledPlugin p = (IBedazzledPlugin) Class.forName(

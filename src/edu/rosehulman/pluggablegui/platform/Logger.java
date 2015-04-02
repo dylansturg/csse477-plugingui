@@ -45,6 +45,11 @@ public class Logger implements ILogger {
 		return bedazzled;
 	}
 	
+	//Change bedazzle to dylandazzle for black text
+	private String dylandazzle(String s){
+		return "<font size=\"3\" face=\"verdana\" color=\"black\">" + s + "</font>";
+	} 
+	
 	private String redazzle(String s){
 		return "<font size=\"3\" face=\"verdana\" color=\"red\">" + s + "</font>";
 	}
@@ -64,9 +69,12 @@ public class Logger implements ILogger {
 	@Override
 	public JPanel render() {
 		JScrollPane loggerScrollPane = new JScrollPane(loggerText);
+		loggerPanel.setLayout(new BorderLayout());
 		loggerPanel.add(loggerScrollPane, BorderLayout.CENTER);
 		loggerText.setEditorKit(new HTMLEditorKit());
-		loggerText.setSize(600, 200);
+		loggerScrollPane.setBackground(Color.black);
+		
+//		loggerText.setSize(600, 200);
 		loggerPanel.setSize(600, 200);
 		
 		loggerText.setText("<html><head></head><body>Logger started</body></html>");
