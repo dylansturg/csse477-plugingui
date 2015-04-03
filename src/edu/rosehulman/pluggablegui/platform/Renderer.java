@@ -3,6 +3,7 @@ package edu.rosehulman.pluggablegui.platform;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,6 +57,7 @@ public class Renderer extends JPanel {
 		add(availablePluginTable);
 
 		pluginUIPanel = new JPanel();
+		pluginUIPanel.setLayout(new GridLayout(0, 1));
 		pluginUIPanel.setPreferredSize(new Dimension(600, 600));
 		pluginUIPanel.setBackground(Color.ORANGE);
 
