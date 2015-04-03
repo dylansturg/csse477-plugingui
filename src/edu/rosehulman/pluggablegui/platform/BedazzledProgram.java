@@ -43,7 +43,7 @@ public class BedazzledProgram extends JPanel {
 
 		frame.getContentPane().add(new BedazzledProgram());
 		frame.setVisible(true);
-		frame.pack();
+//		frame.pack();
 	}
 
 	public BedazzledProgram() {
